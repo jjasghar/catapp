@@ -1,0 +1,59 @@
+---
+# Only thing not from the catalog
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kubectl-deploy-from-path
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: from-catalog-shelf
+spec:
+  # All good as of https://github.com/tektoncd/catalog.git and commit e680707
+  description: |
+    Everything off the shelf (Tekton catalog) to git clone, build, push, and notify on Slack when a step happens
+  params:
+  - name: repo-url
+    type: string
+    description: The git repository URL to clone from.
+  - name: docker-url
+    type: string
+    description: Where to push the app to
+  - name: app-url
+    type: string
+    description: Where to cURL to test the app is up
+  workspaces:
+  - name: shared-data
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: shared-data
+      params:
+      - name: url
+        value: $(params.repo-url)
+    - name: build-and-push
+      taskRef:
+        name: build-and-push
+        workspaces:
+        - name: output
+          workspace: shared-data
+        params:
+        - name: url
+          value: $(params.repo-url)
+
+    - name: deploy-it
+      runAfter: build-and-push
+      taskRef: 
+        name: kubectl-deploy-from-path
+
+    - name: curl-it
+      runAfter: deploy-it
+      taskRef: 
+        name: curl-header-run
+      params:
+      - name: url
+        value: $(params.app-url)
