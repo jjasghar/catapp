@@ -16,10 +16,11 @@ spec:
     description: Where to push the app to
   - name: app-url
     type: string
-    description: Where to cURL to test the app is up
+    description: Where to curl to test that the app is up
   workspaces:
   - name: shared-data
 
+  # Todo add Slack posts inbetween each
   tasks:
     - name: clone
       taskRef:
@@ -64,4 +65,3 @@ spec:
         value: $(params.app-url)
 
     # Todo actually run this, fix all the yaml problems, see if my guessing at /workspace reference even works
-    
