@@ -1,10 +1,4 @@
 ---
-# Only thing not from the catalog
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: kubectl-deploy-from-path
----
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -25,6 +19,7 @@ spec:
     description: Where to cURL to test the app is up
   workspaces:
   - name: shared-data
+
   tasks:
     - name: clone
       taskRef:
@@ -35,7 +30,9 @@ spec:
       params:
       - name: url
         value: $(params.repo-url)
+
     - name: build-and-push
+      runAfter: clone
       taskRef:
         name: build-and-push
         workspaces:
@@ -47,8 +44,16 @@ spec:
 
     - name: deploy-it
       runAfter: build-and-push
+      workspaces:
+        name: output
+        workspace: shared-data
       taskRef: 
-        name: kubectl-deploy-from-path
+        name: kubectl
+      params:
+        name: action
+        value: apply
+        name: path
+        value: /workspace/shared-data/config
 
     - name: curl-it
       runAfter: deploy-it
@@ -57,3 +62,6 @@ spec:
       params:
       - name: url
         value: $(params.app-url)
+
+    # Todo actually run this, fix all the yaml problems, see if my guessing at /workspace reference even works
+    
