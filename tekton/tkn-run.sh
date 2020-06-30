@@ -6,8 +6,9 @@ if [ "$#" -ne 3 ]; then
   exit -1
 fi
 
-repo-url=$1
-docker-url=$2
-app-url=$3
+repourl=$1
+dockerurl=$2
+appurl=$3
 
-tkn pipeline start from-catalog-shelf -workspace name=shared-data -p repo-url=${repo-url} -p docker-url=${docker-url} -p app-url=${app-url} -n default -s default
+echo "Make sure you've got a Docker secret for Tekton configured for $docker-url!"
+tkn pipeline start from-catalog-shelf -workspace name=shared-data -p repo-url=${repourl} -p docker-url=${dockerurl} -p app-url=${appurl} -n default -s default
