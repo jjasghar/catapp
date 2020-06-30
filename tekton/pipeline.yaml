@@ -6,15 +6,6 @@ metadata:
 spec:
   workspaces:
   - name: shared-data
-    volumeClaimTemplate:
-      metadata:
-        name: mypvc
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 50Mi
   # All good as of https://github.com/tektoncd/catalog.git and commit e680707
   description: |
     Everything off the shelf (Tekton catalog) to git clone, build, push, and notify on Slack when a step happens

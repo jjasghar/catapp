@@ -10,7 +10,8 @@ repourl=$1
 dockerurl=$2
 appurl=$3
 
-# Make a PVC called repopvc
+kubectl delete -f repopvc.yaml
+kubectl apply -f repopvc.yaml
 
 echo "Make sure you've got a Docker secret for Tekton configured for $docker-url! Patched to the serviceaccount default in the namespace default"
 tkn pipeline start from-catalog-shelf --workspace name=shared-data,claimName=repopvc -p repo-url=${repourl} -p docker-url=${dockerurl} -p app-url=${appurl} -n default -s default
