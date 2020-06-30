@@ -37,7 +37,7 @@ spec:
       taskRef:
         name: kaniko
       workspaces:
-      - name: output
+      - name: source
         workspace: shared-data
       params:
       - name: IMAGE
