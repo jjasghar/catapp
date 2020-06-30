@@ -16,4 +16,7 @@ view the running app.
 
 ## Build and run CatApp on Tekton
 
-Todo, but it'll involve applying the Pipeline under `tekton`, a bunch of tasks from the catalog (commands todo) and `tkn`, after you make a secret in the Dashboard for pushing to your Docker registry, and then one (not in the Tekton Dashboard) for your Slack secret.
+- Modify `config/service.yaml` to point to your own Docker registry
+- Make a Docker push secret called `docker-secret` using the Tekton Dashboard. Choose `default` as both the namespace and ServiceAccount
+- cd tekton
+- ./tkn-run.sh https://github.com/a-roberts/catapp.git docker.io/<your docker registry>/catapp http://catapp:30300

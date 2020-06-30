@@ -11,10 +11,5 @@ kubectl apply -f kaniko/kaniko.yaml
 cd ../
 rm -rf ./catalog
 
-git clone https://github.com/a-roberts/catalog.git
-cd catalog
-git checkout kubectl-from-path
-kubectl apply -f kubectl-from-path/kubectl.yaml
-cd ../
-
-rm -rf ./catalog
+# This is the only custom bit
+kubectl apply -f kubetask.yaml
