@@ -16,8 +16,9 @@ spec:
     spec:
       containers:
         - name: catapp
-          # This image will be overwritten by the update-deployment Task
-          image: catapp:latest
+          # Todo would be awesome if this was a placeholder to replace with sed
+          # based on the resulting image digest from the kaniko build/push task
+          image: docker.io/adamroberts/catapp:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

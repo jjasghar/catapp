@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kubectl
+spec:
+  params:
+  - name: action
+    default: "apply"
+    description: Action to do (e.g. create, apply, delete)
+  - name: path
+    description: Path to do the action on (e.g. a folder name, or a file name)
+    default: "."
+  - name: image
+    default: lachlanevenson/k8s-kubectl
+    description: The kubectl image to use
+  steps: 
+  - name: echohello
+    image: bash
+    command: ['echo'] 
+    args:
+    - 'hello world!'
+  - name: debug
+    image: bash
+    command: ['find'] 
+    args:
+    - '.'
+  - name: ls
+    image: bash
+    command: ['ls'] 
+    args:
+    - '/workspace'
+  - name: pwd
+    image: bash
+    command: ['pwd'] 
+  - name: kubectl
+    image: $(params.image)
+    command: ['kubectl']
+    args:
+    - '$(params.action)'
+    - '-f'
+    - '$(params.path)'

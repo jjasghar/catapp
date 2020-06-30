@@ -45,9 +45,6 @@ spec:
 
     - name: deploy-it
       runAfter: [build-and-push]
-      workspaces:
-      - name: output
-        workspace: shared-data
       taskRef: 
         name: kubectl
       params:
@@ -58,9 +55,6 @@ spec:
 
     - name: curl-it
       runAfter: [deploy-it]
-      workspaces:
-      - name: output
-        workspace: shared-data
       taskRef: 
         name: curl
       params:
