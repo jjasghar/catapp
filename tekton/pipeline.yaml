@@ -33,35 +33,36 @@ spec:
         value: $(params.repo-url)
 
     - name: build-and-push
-      runAfter: clone
+      runAfter: [clone]
       taskRef:
         name: build-and-push
-        workspaces:
-        - name: output
-          workspace: shared-data
-        params:
-        - name: url
-          value: $(params.repo-url)
+      workspaces:
+      - name: output
+        workspace: shared-data
+      params:
+      - name: url
+        value: $(params.repo-url)
 
     - name: deploy-it
-      runAfter: build-and-push
+      runAfter: [build-and-push]
       workspaces:
-        name: output
+      - name: output
         workspace: shared-data
       taskRef: 
         name: kubectl
       params:
-        name: action
+      - name: action
         value: apply
-        name: path
+      - name: path
         value: /workspace/shared-data/config
 
     - name: curl-it
-      runAfter: deploy-it
+      runAfter: [deploy-it]
+      workspaces:
+      - name: output
+        workspace: shared-data
       taskRef: 
         name: curl-header-run
       params:
       - name: url
         value: $(params.app-url)
-
-    # Todo actually run this, fix all the yaml problems, see if my guessing at /workspace reference even works
