@@ -18,5 +18,5 @@ view the running app.
 
 - Modify `config/service.yaml` to point to your own Docker registry
 - Make a Docker push secret called `docker-secret` using the Tekton Dashboard. Choose `default` as both the namespace and ServiceAccount
-- cd tekton
-- ./tkn-run.sh https://github.com/a-roberts/catapp.git docker.io/<your docker registry>/catapp http://catapp:30300
+- `cd tekton`
+- `./tkn-run.sh https://github.com/a-roberts/catapp.git docker.io/<your docker registry>/catapp http://catapp:30300`
