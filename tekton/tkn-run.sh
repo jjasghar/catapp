@@ -11,4 +11,4 @@ dockerurl=$2
 appurl=$3
 
 echo "Make sure you've got a Docker secret for Tekton configured for $docker-url!"
-tkn pipeline start from-catalog-shelf -workspace name=shared-data -p repo-url=${repourl} -p docker-url=${dockerurl} -p app-url=${appurl} -n default -s default
+tkn pipeline start from-catalog-shelf --workspace name=shared-data,secret=docker-secret -p repo-url=${repourl} -p docker-url=${dockerurl} -p app-url=${appurl}

@@ -4,6 +4,8 @@ kind: Pipeline
 metadata:
   name: from-catalog-shelf
 spec:
+  workspaces:
+  - name: shared-data
   # All good as of https://github.com/tektoncd/catalog.git and commit e680707
   description: |
     Everything off the shelf (Tekton catalog) to git clone, build, push, and notify on Slack when a step happens
@@ -17,8 +19,6 @@ spec:
   - name: app-url
     type: string
     description: Where to curl to test that the app is up
-  workspaces:
-  - name: shared-data
 
   # Todo add Slack posts inbetween each
   tasks:
@@ -35,13 +35,13 @@ spec:
     - name: build-and-push
       runAfter: [clone]
       taskRef:
-        name: build-and-push
+        name: kaniko
       workspaces:
       - name: output
         workspace: shared-data
       params:
-      - name: url
-        value: $(params.repo-url)
+      - name: IMAGE
+        value: $(params.docker-url)
 
     - name: deploy-it
       runAfter: [build-and-push]
@@ -62,7 +62,7 @@ spec:
       - name: output
         workspace: shared-data
       taskRef: 
-        name: curl-header-run
+        name: curl
       params:
       - name: url
         value: $(params.app-url)
