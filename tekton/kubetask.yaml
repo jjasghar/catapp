@@ -3,6 +3,12 @@ kind: Task
 metadata:
   name: kubectl
 spec:
+  workspaces:
+  - name: output
+  # In your pipeline you would have
+  # workspaces:
+  # - name: output
+  #   workspace: shared-data
   params:
   - name: action
     default: "apply"
@@ -14,28 +20,10 @@ spec:
     default: lachlanevenson/k8s-kubectl
     description: The kubectl image to use
   steps: 
-  - name: echohello
-    image: bash
-    command: ['echo'] 
-    args:
-    - 'hello world!'
-  - name: debug
-    image: bash
-    command: ['find'] 
-    args:
-    - '.'
-  - name: ls
-    image: bash
-    command: ['ls'] 
-    args:
-    - '/workspace'
-  - name: pwd
-    image: bash
-    command: ['pwd'] 
   - name: kubectl
     image: $(params.image)
     command: ['kubectl']
     args:
     - '$(params.action)'
     - '-f'
-    - '$(params.path)'
+    - '$(workspaces.output.path)/$(params.path)'

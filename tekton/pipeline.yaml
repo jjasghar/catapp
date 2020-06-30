@@ -45,13 +45,16 @@ spec:
 
     - name: deploy-it
       runAfter: [build-and-push]
+      workspaces:
+        - name: output
+          workspace: shared-data
       taskRef: 
         name: kubectl
       params:
       - name: action
         value: apply
       - name: path
-        value: /workspace/shared-data/config
+        value: config
 
     - name: curl-it
       runAfter: [deploy-it]
