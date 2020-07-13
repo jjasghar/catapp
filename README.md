@@ -1,10 +1,10 @@
 # CatApp
 
-Nodejs demo app for running a cloud native Tekton Pipeline.
+Node.js demo app for running a cloud native Tekton Pipeline.
 
 This app displays a random picture of a cat.
 
-## Build and run Nodejs app
+## Build and run the Node.js app
 
 ```bash
 npm install
@@ -23,3 +23,4 @@ view the running app.
 - Remove the `hostpath` references in `repopvc.yaml` if you are using a real Cloud environment that does not support this type. Hopefully you are using one which supports dynamic provisioning
 - If you are deploying into a real Cloud environment, you may need your own Role and RoleBinding, in use by your chosen ServiceAccount to use with `tkn-run`, that has additional permissions, to get/create/list Kubernetes deployments/services. Hint, the API group for services is simply ""
 - `./tkn-run.sh https://github.com/a-roberts/catapp.git docker.io/<your docker registry>/catapp http://catapp:30300`
+- Hopefully everything built, deployed and was pushed! You can port-forward or proxy to get to the app now, or you could do a `docker run` referring to your newly built image
