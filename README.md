@@ -17,6 +17,9 @@ view the running app.
 ## Build and run CatApp on Tekton
 
 - Modify `config/service.yaml` to point to your own Docker registry
-- Make a Docker push secret called `docker-secret` using the Tekton Dashboard. Choose `default` as both the namespace and ServiceAccount
+- Determine which ServiceAccount and namespace you want to use. Make a Docker push secret called `docker-secret` using the Tekton Dashboard. Choose `default` as both the namespace and ServiceAccount, *or* make your own ServiceAccount and use this to be the ServiceAccount/namespace you would like, and modify the `tkn-run.sh` script you will use later, to reference your serviceaccount and namespace for the `-s` and `-n` arguments
 - `cd tekton`
+- `./grab-deps.sh`
+- Remove the `hostpath` references in `repopvc.yaml` if you are using a real Cloud environment that does not support this type. Hopefully you are using one which supports dynamic provisioning
+- If you are deploying into a real Cloud environment, you may need your own Role and RoleBinding, in use by your chosen ServiceAccount to use with `tkn-run`, that has additional permissions, to get/create/list Kubernetes deployments/services. Hint, the API group for services is simply ""
 - `./tkn-run.sh https://github.com/a-roberts/catapp.git docker.io/<your docker registry>/catapp http://catapp:30300`
