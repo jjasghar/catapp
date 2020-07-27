@@ -9,4 +9,4 @@ spec:
       storage: 32Mi
   accessModes:
     - ReadWriteOnce
-  storageClassName: hostpath
+  #storageClassName: hostpath
