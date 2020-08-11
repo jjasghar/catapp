@@ -24,3 +24,5 @@ view the running app.
 - Apply the Tekton Pipeline definition: `kubectl apply -f pipeline.yaml`
 - `./tkn-run.sh https://github.com/a-roberts/catapp.git docker.io/<your docker registry>/catapp http://catapp:30300`
 - Hopefully everything built, deployed and was pushed! You can port-forward or proxy to get to the app now, or you could do a `docker run` referring to your newly built image
+
+Yay!
